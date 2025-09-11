@@ -1,0 +1,1 @@
+ID Card Printer for CARE (BROSWER PRINT & ZC300 ZPL print)
