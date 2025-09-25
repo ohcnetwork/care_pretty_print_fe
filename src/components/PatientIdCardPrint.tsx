@@ -95,24 +95,24 @@ export default function PatientIdCardPrint({
               font-size: 22px;
               font-weight: bold;
               position: absolute;
-              top: 100px;
+              top: 95px;
               left: 25px;
             }
             .op {
               font-size: 18px;
               position: absolute;
-              top: 135px;
+              top: 130px;
               left: 25px;
             }
             .age-sex {
               font-size: 18px;
               position: absolute;
-              top: 160px;
+              top: 155px;
               left: 25px;
             }
             .qrcode {
               position: absolute;
-              top: 110px;
+              top: 115px;
               right: 110px;
             }
             #qrcode {
