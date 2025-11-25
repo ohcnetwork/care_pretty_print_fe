@@ -19,16 +19,6 @@ export default function PatientHomeActionsWrapper({
   const enableZebraPrint =
     import.meta.env.REACT_APP_ENABLE_ZEBRA_ZC300_PRINT !== "false";
 
-  // Debug logging (remove in production)
-  console.log("Environment variables:", {
-    REACT_APP_ENABLE_BROWSER_PRINT: import.meta.env
-      .REACT_APP_ENABLE_BROWSER_PRINT,
-    REACT_APP_ENABLE_ZEBRA_ZC300_PRINT: import.meta.env
-      .REACT_APP_ENABLE_ZEBRA_ZC300_PRINT,
-    enableBrowserPrint,
-    enableZebraPrint,
-  });
-
   // If no print components are enabled, don't render anything
   if (!enableBrowserPrint && !enableZebraPrint) {
     return null;

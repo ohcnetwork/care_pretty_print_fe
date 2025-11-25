@@ -183,19 +183,21 @@ export default function PatientIdCardPrint({
 
           <div className="flex gap-2">
             <Button
-              data-shortcut-id="print-token"
+              data-shortcut-id="print-button"
               onClick={handleBrowserPrint}
               disabled={isPrinting}
               variant="primary"
               className="flex-1"
             >
               {isPrinting ? (
-                <Loader2 className="h-4 w-4 animate-spin" />
+                <Loader2 className="size-4 animate-spin" />
               ) : (
-                <Printer className="h-4 w-4" />
+                <Printer className="size-4" />
               )}
               Card Printer
-              <div className="size-5 rounded-md border border-gray-200">P</div>
+              <div className="size-5 rounded-md border text-black bg-white">
+                P
+              </div>
             </Button>
           </div>
         </div>

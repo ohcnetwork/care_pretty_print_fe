@@ -14,7 +14,7 @@ export const getPatientId = (
     identifierId || import.meta.env.REACT_APP_PATIENT_IDENTIFIER_ID;
 
   if (!patient.instance_identifiers?.length) {
-    return patient.id || "";
+    return "NIL";
   }
 
   // If a specific identifier ID is provided, try to find it
