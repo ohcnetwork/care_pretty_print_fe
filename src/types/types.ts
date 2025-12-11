@@ -21,6 +21,7 @@ export interface PatientRead {
   name: string;
   phone_number: string;
   date_of_birth?: string;
+  year_of_birth?: number;
   gender?: string;
   instance_identifiers?: InstanceIdentifier[];
 }

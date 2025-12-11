@@ -33,17 +33,24 @@ export default function PatientIdCardPrint({
     }
   };
 
-  const calculateAge = (dateOfBirth?: string): number | string => {
-    if (!dateOfBirth) return "N/A";
-    return new Date().getFullYear() - new Date(dateOfBirth).getFullYear();
+  const getAge = (): number | string => {
+    if (patient.date_of_birth) {
+      return (
+        new Date().getFullYear() - new Date(patient.date_of_birth).getFullYear()
+      );
+    }
+    if (patient.year_of_birth) {
+      return new Date().getFullYear() - patient.year_of_birth;
+    }
+    return "-";
   };
 
   const getPatientData = () => ({
     name: patient.name?.toUpperCase() || "",
     patientID: patient.id || "",
     id: getPatientId(patient),
-    age: calculateAge(patient.date_of_birth),
-    sex: patient.gender ? formatGender(patient.gender) : "N/A",
+    age: getAge(),
+    sex: patient.gender ? formatGender(patient.gender) : "-",
     date: new Date().toLocaleDateString(),
   });
 
@@ -160,7 +167,7 @@ export default function PatientIdCardPrint({
 
   return (
     <div className={className}>
-      <div className="w-full bg-white border border-gray-200 rounded-lg shadow-sm">
+      <div className="w-full bg-white border border-gray-200 rounded-md shadow-sm">
         <div className="p-4 border-b border-gray-200">
           <h3 className="text-lg font-semibold text-blue-800 flex items-center gap-2">
             <Printer className="size-5" />
@@ -168,17 +175,15 @@ export default function PatientIdCardPrint({
           </h3>
         </div>
         <div className="p-4 space-y-3">
-          <div className="text-sm text-gray-600">
-            <p>
-              <strong>Patient:</strong> {patient.name}
-            </p>
-            <p>
-              <strong>ID:</strong> {getPatientId(patient)}
-            </p>
-            <p>
-              <strong>Age/Sex:</strong> {calculateAge(patient.date_of_birth)}/
-              {patient.gender ? formatGender(patient.gender) : "N/A"}
-            </p>
+          <div className="text-sm text-gray-600 flex flex-col">
+            <strong className="text-base">{patient.name}</strong>
+            <span>
+              <strong>ID No. :</strong> {getPatientId(patient)}
+            </span>
+            <span>
+              <strong>Age/Sex:</strong> {getAge()}/
+              {patient.gender ? formatGender(patient.gender) : "-"}
+            </span>
           </div>
 
           <div className="flex gap-2">
