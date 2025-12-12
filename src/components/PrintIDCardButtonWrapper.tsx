@@ -4,19 +4,19 @@ import type { PatientRead } from "@/types/types";
 
 import PatientIdCardPrint from "./PatientIdCardPrint";
 
-interface PatientHeaderActionsWrapperProps {
+interface PrintIDCardButtonWrapperProps {
   patient: PatientRead;
   className?: string;
   __meta?: Record<string, unknown>;
   variant?: ButtonVariant;
 }
 
-export default function PatientHeaderActionsWrapper({
+export default function PrintIDCardButtonWrapper({
   patient,
   className,
   __meta,
   variant,
-}: PatientHeaderActionsWrapperProps) {
+}: PrintIDCardButtonWrapperProps) {
   const enableBrowserPrint =
     import.meta.env.REACT_APP_ENABLE_BROWSER_PRINT !== "false";
 

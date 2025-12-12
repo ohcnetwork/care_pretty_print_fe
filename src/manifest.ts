@@ -6,8 +6,8 @@ const PatientHomeActionsWrapper = lazy(
   () => import("./components/PatientHomeActionsWrapper"),
 );
 
-const PatientHeaderActionsWrapper = lazy(
-  () => import("./components/PatientHeaderActionsWrapper"),
+const PrintIDCardButtonWrapper = lazy(
+  () => import("./components/PrintIDCardButtonWrapper"),
 );
 
 const manifest = {
@@ -16,7 +16,7 @@ const manifest = {
   extends: [],
   components: {
     PatientHomeActions: PatientHomeActionsWrapper,
-    PatientHeaderActions: PatientHeaderActionsWrapper,
+    PrintIDCardButton: PrintIDCardButtonWrapper,
   },
 } as const;
 
