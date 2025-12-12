@@ -6,11 +6,13 @@ import ZebraZC300CardPrint from "./ZebraZC300CardPrint";
 interface PatientHomeActionsWrapperProps {
   patient: PatientRead;
   className?: string;
+  __meta?: Record<string, unknown>;
 }
 
 export default function PatientHomeActionsWrapper({
   patient,
   className,
+  __meta,
 }: PatientHomeActionsWrapperProps) {
   // Get environment variables to control component visibility
   // Default to true if not set or if set to anything other than 'false'
@@ -28,7 +30,9 @@ export default function PatientHomeActionsWrapper({
     <div className={className}>
       <div className="space-y-6">
         {/* Browser Print Section */}
-        {enableBrowserPrint && <PatientIdCardPrint patient={patient} />}
+        {enableBrowserPrint && (
+          <PatientIdCardPrint patient={patient} __meta={__meta} />
+        )}
 
         {/* ZC300 Basic Print Section */}
         {enableZebraPrint && <ZebraZC300CardPrint patient={patient} />}

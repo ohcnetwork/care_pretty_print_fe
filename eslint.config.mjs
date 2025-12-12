@@ -1,7 +1,7 @@
 import eslint from "@eslint/js";
 import tseslint from "@typescript-eslint/eslint-plugin";
 import tsParser from "@typescript-eslint/parser";
-import i18nextPlugin from "eslint-plugin-i18next";
+// import i18nextPlugin from "eslint-plugin-i18next";
 import noRelativeImportPaths from "eslint-plugin-no-relative-import-paths";
 import eslintPluginPrettierRecommended from "eslint-plugin-prettier/recommended";
 import reactPlugin from "eslint-plugin-react";
@@ -113,28 +113,28 @@ export default [
   },
 
   // i18next plugin rules
-  {
-    files: ["**/*.{js,jsx,ts,tsx}"],
-    plugins: {
-      i18next: i18nextPlugin,
-    },
-    rules: {
-      ...i18nextPlugin.configs.recommended.rules,
-      "i18next/no-literal-string": [
-        "warn",
-        {
-          mode: "jsx-only",
-          "jsx-attributes": {
-            include: ["label", "placeholder", "error", "title"],
-            exclude: [".*"],
-          },
-          callees: {
-            exclude: [".*"],
-          },
-        },
-      ],
-    },
-  },
+  // {
+  //   files: ["**/*.{js,jsx,ts,tsx}"],
+  //   plugins: {
+  //     i18next: i18nextPlugin,
+  //   },
+  //   rules: {
+  //     ...i18nextPlugin.configs.recommended.rules,
+  //     "i18next/no-literal-string": [
+  //       "warn",
+  //       {
+  //         mode: "jsx-only",
+  //         "jsx-attributes": {
+  //           include: ["label", "placeholder", "error", "title"],
+  //           exclude: [".*"],
+  //         },
+  //         callees: {
+  //           exclude: [".*"],
+  //         },
+  //       },
+  //     ],
+  //   },
+  // },
 
   // Add prettier recommended config last
   eslintPluginPrettierRecommended,

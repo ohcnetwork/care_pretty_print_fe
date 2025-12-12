@@ -2,7 +2,9 @@ import { Loader2, Printer } from "lucide-react";
 import QRCode from "qrcode";
 import { useState } from "react";
 
-import { Button } from "@/components/ui/button";
+import { cn } from "@/lib/utils";
+
+import { Button, ButtonVariant } from "@/components/ui/button";
 
 import type { PatientRead } from "@/types/types";
 import { getPatientId } from "@/utils";
@@ -10,11 +12,17 @@ import { getPatientId } from "@/utils";
 interface PatientIdCardPrintProps {
   patient: PatientRead;
   className?: string;
+  __meta?: Record<string, unknown>;
+  onlyShowPrintButton?: boolean;
+  variant?: ButtonVariant;
 }
 
 export default function PatientIdCardPrint({
   patient,
   className,
+  __meta,
+  onlyShowPrintButton,
+  variant = "primary",
 }: PatientIdCardPrintProps) {
   const [isPrinting, _setIsPrinting] = useState(false);
 
@@ -48,7 +56,10 @@ export default function PatientIdCardPrint({
   const getPatientData = () => ({
     name: patient.name?.toUpperCase() || "",
     patientID: patient.id || "",
-    id: getPatientId(patient),
+    id: getPatientId(
+      patient,
+      __meta?.REACT_APP_PATIENT_IDENTIFIER_ID as string,
+    ),
     age: getAge(),
     sex: patient.gender ? formatGender(patient.gender) : "-",
     date: new Date().toLocaleDateString(),
@@ -165,6 +176,25 @@ export default function PatientIdCardPrint({
     }
   };
 
+  if (onlyShowPrintButton) {
+    return (
+      <Button
+        data-shortcut-id="print-button"
+        onClick={handleBrowserPrint}
+        disabled={isPrinting}
+        variant={variant}
+        className={cn(className, "font-semibold")}
+      >
+        {isPrinting ? (
+          <Loader2 className="size-4 animate-spin" />
+        ) : (
+          <Printer className="size-4" />
+        )}
+        Print ID Card
+      </Button>
+    );
+  }
+
   return (
     <div className={className}>
       <div className="w-full bg-white border border-gray-200 rounded-md shadow-sm">
@@ -178,7 +208,11 @@ export default function PatientIdCardPrint({
           <div className="text-sm text-gray-600 flex flex-col">
             <strong className="text-base">{patient.name}</strong>
             <span>
-              <strong>ID No. :</strong> {getPatientId(patient)}
+              <strong>ID No. :</strong>{" "}
+              {getPatientId(
+                patient,
+                __meta?.REACT_APP_PATIENT_IDENTIFIER_ID as string,
+              )}
             </span>
             <span>
               <strong>Age/Sex:</strong> {getAge()}/
