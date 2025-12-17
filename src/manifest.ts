@@ -16,7 +16,7 @@ const manifest = {
   extends: [],
   components: {
     PatientHomeActions: PatientHomeActionsWrapper,
-    PrintIDCardButton: PrintIDCardButtonWrapper,
+    PatientInfoCardActions: PrintIDCardButtonWrapper,
   },
 } as const;
 
