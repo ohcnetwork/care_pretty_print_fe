@@ -22,7 +22,7 @@ export default function PatientIdCardPrint({
   className,
   __meta,
   onlyShowPrintButton,
-  variant = "primary",
+  variant = "link",
 }: PatientIdCardPrintProps) {
   const [isPrinting, _setIsPrinting] = useState(false);
 
