@@ -216,226 +216,230 @@ export default function PatientSearchPage({
     selectedConfig?.config.system === PHONE_NUMBER_CONFIG_SYSTEM;
 
   return (
-    <div className="container mx-auto px-4 pb-6 max-w-6xl">
-      <div className="mb-6">
-        <h1 className="text-2xl font-bold text-gray-900 flex items-center gap-2">
-          <Printer className="size-6" />
-          Patient ID Card Print
-        </h1>
-        <p className="text-gray-600 mt-1">
-          Search for a patient and print their ID card
-        </p>
-      </div>
-
-      {/* Search Section */}
-      <Card className="mb-6">
-        <CardHeader>
-          <CardTitle className="text-lg flex items-center gap-2">
-            <Search className="size-5" />
-            Search Patient
-          </CardTitle>
-        </CardHeader>
-        <CardContent>
-          {/* Identifier Config Selector */}
-          {identifierConfigs.length > 0 && (
-            <div className="flex flex-wrap gap-2 mb-4">
-              {identifierConfigs.map((config) => (
-                <Button
-                  key={config.id}
-                  variant="secondary"
-                  size="sm"
-                  onClick={() => {
-                    setSelectedConfigId(config.id);
-                    setSearchQuery("");
-                  }}
-                  className={`inline-flex items-center justify-center gap-2 whitespace-nowrap font-medium transition-colors focus-visible:outline-hidden focus-visible:ring-1 focus-visible:ring-gray-950 disabled:pointer-events-none disabled:opacity-50 border shadow-sm h-6 rounded-md px-2 text-xs ${
-                    selectedConfigId === config.id
-                      ? "bg-primary-100 text-primary-700 hover:bg-primary-200 border-primary-400"
-                      : "bg-gray-100 text-gray-700 hover:bg-gray-200 border-gray-400 hover:text-gray-900"
-                  }`}
-                >
-                  {config.config.display}
-                </Button>
-              ))}
-            </div>
-          )}
-
-          <div className="flex gap-3">
-            <div className="relative flex-1">
-              {isPhoneSearch ? (
-                <PhoneInput
-                  value={searchQuery}
-                  onChange={(value) => setSearchQuery(value || "")}
-                  onKeyDown={handleKeyDown}
-                  defaultCountry="IN"
-                  placeholder="Enter phone number..."
-                  className="shadow-sm"
-                />
-              ) : (
-                <>
-                  <Search className="absolute left-3 top-1/2 -translate-y-1/2 size-4 text-gray-400" />
-                  <Input
-                    type="text"
-                    placeholder={
-                      selectedConfig
-                        ? `Search by ${selectedConfig.config.display}...`
-                        : "Select an identifier type..."
-                    }
-                    value={searchQuery}
-                    onChange={(e) => setSearchQuery(e.target.value)}
-                    onKeyDown={handleKeyDown}
-                    className="pl-10"
-                  />
-                </>
-              )}
-            </div>
-            <Button
-              onClick={searchPatients}
-              disabled={isLoading || !selectedConfigId}
-              variant="primary"
-            >
-              {isLoading ? (
-                <Loader2 className="size-4 animate-spin" />
-              ) : (
-                <Search className="size-4" />
-              )}
-              Search
-            </Button>
+    <div className="fixed inset-0 z-50 bg-black/50 backdrop-blur-sm">
+      <div className="w-screen h-screen overflow-auto bg-white">
+        <div className="container mx-auto px-4 py-6 max-w-6xl">
+          <div className="mb-6">
+            <h1 className="text-2xl font-bold text-gray-900 flex items-center gap-2">
+              <Printer className="size-6" />
+              Patient ID Card Print
+            </h1>
+            <p className="text-gray-600 mt-1">
+              Search for a patient and print their ID card
+            </p>
           </div>
-          {error && <p className="text-red-500 text-sm mt-2">{error}</p>}
-        </CardContent>
-      </Card>
 
-      <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
-        {/* Patient List */}
-        <div className="lg:col-span-2">
-          {isLoading ? (
-            <Card>
-              <CardContent>
-                <div className="flex items-center justify-center py-12">
-                  <Loader2 className="size-8 animate-spin text-gray-400" />
-                </div>
-              </CardContent>
-            </Card>
-          ) : !hasSearched ? (
-            <Card className="border-dashed">
-              <CardContent>
-                <div className="flex flex-col items-center justify-center p-6 text-center">
-                  <div className="rounded-full bg-primary/10 p-3 mb-3">
-                    <Search className="size-6 text-primary" />
-                  </div>
-                  <h3 className="text-lg font-semibold mb-1">
-                    Search for Patients
-                  </h3>
-                  <p className="text-sm text-gray-500">
-                    {selectedConfig
-                      ? `Enter ${selectedConfig.config.display} to search`
-                      : "Select an identifier type to search"}
-                  </p>
-                </div>
-              </CardContent>
-            </Card>
-          ) : patients.length === 0 ? (
-            <Card className="border-dashed">
-              <CardContent>
-                <div className="flex flex-col items-center justify-center p-6 text-center">
-                  <div className="rounded-full bg-primary/10 p-3 mb-3">
-                    <User className="size-6 text-primary" />
-                  </div>
-                  <h3 className="text-lg font-semibold mb-1">
-                    No patients found
-                  </h3>
-                  <p className="text-sm text-gray-500">
-                    Try a different search term
-                  </p>
-                </div>
-              </CardContent>
-            </Card>
-          ) : (
-            <Card>
-              <CardHeader>
-                <CardTitle className="text-lg flex items-center gap-2">
-                  <User className="size-5" />
-                  Patients
-                  <span className="text-sm font-normal text-gray-500">
-                    ({patients.length} found)
-                  </span>
-                </CardTitle>
-              </CardHeader>
-              <CardContent>
-                <div className="space-y-3">
-                  {patients.map((patient) => (
-                    <div
-                      key={patient.id}
-                      onClick={() => setSelectedPatient(patient)}
-                      className={`p-4 rounded-lg border cursor-pointer transition-all hover:shadow-md ${
-                        selectedPatient?.id === patient.id
-                          ? "border-primary-500 bg-primary-50"
-                          : "border-gray-200 hover:border-gray-300"
+          {/* Search Section */}
+          <Card className="mb-6">
+            <CardHeader>
+              <CardTitle className="text-lg flex items-center gap-2">
+                <Search className="size-5" />
+                Search Patient
+              </CardTitle>
+            </CardHeader>
+            <CardContent>
+              {/* Identifier Config Selector */}
+              {identifierConfigs.length > 0 && (
+                <div className="flex flex-wrap gap-2 mb-4">
+                  {identifierConfigs.map((config) => (
+                    <Button
+                      key={config.id}
+                      variant="secondary"
+                      size="sm"
+                      onClick={() => {
+                        setSelectedConfigId(config.id);
+                        setSearchQuery("");
+                      }}
+                      className={`inline-flex items-center justify-center gap-2 whitespace-nowrap font-medium transition-colors focus-visible:outline-hidden focus-visible:ring-1 focus-visible:ring-gray-950 disabled:pointer-events-none disabled:opacity-50 border shadow-sm h-6 rounded-md px-2 text-xs ${
+                        selectedConfigId === config.id
+                          ? "bg-primary-100 text-primary-700 hover:bg-primary-200 border-primary-400"
+                          : "bg-gray-100 text-gray-700 hover:bg-gray-200 border-gray-400 hover:text-gray-900"
                       }`}
                     >
-                      <div className="flex items-center justify-between">
-                        <div>
-                          <span className="font-semibold text-lg text-gray-900">
-                            {patient.name}
-                          </span>
-                          <div className="text-sm text-gray-500 mt-1 space-x-3">
-                            <span>Age: {getAge(patient)}</span>
-                            <span>•</span>
-                            <span>
-                              Gender: {formatGender(patient.gender || "")}
-                            </span>
-                          </div>
-                          {patient.phone_number && (
-                            <div className="text-sm text-gray-500">
-                              Phone: {patient.phone_number}
-                            </div>
-                          )}
-                        </div>
-                        <Button
-                          variant="outline"
-                          size="sm"
-                          onClick={(e) => {
-                            e.stopPropagation();
-                            setSelectedPatient(patient);
-                          }}
-                        >
-                          Select
-                        </Button>
-                      </div>
-                    </div>
+                      {config.config.display}
+                    </Button>
                   ))}
                 </div>
-              </CardContent>
-            </Card>
-          )}
-        </div>
+              )}
 
-        {/* Print Section */}
-        <div className="lg:col-span-1">
-          {selectedPatient ? (
-            <PatientIdCardPrint
-              patient={selectedPatient}
-              onlyShowPrintButton={false}
-              className="sticky top-4"
-            />
-          ) : (
-            <Card className="sticky top-4 border-dashed">
-              <CardContent>
-                <div className="flex flex-col items-center justify-center p-6 text-center">
-                  <div className="rounded-full bg-primary/10 p-3 mb-3">
-                    <Printer className="size-6 text-primary" />
-                  </div>
-                  <h3 className="text-lg font-semibold mb-1">
-                    No Patient Selected
-                  </h3>
-                  <p className="text-sm text-gray-500">
-                    Select a patient to print their ID card
-                  </p>
+              <div className="flex gap-3">
+                <div className="relative flex-1">
+                  {isPhoneSearch ? (
+                    <PhoneInput
+                      value={searchQuery}
+                      onChange={(value) => setSearchQuery(value || "")}
+                      onKeyDown={handleKeyDown}
+                      defaultCountry="IN"
+                      placeholder="Enter phone number..."
+                      className="shadow-sm"
+                    />
+                  ) : (
+                    <>
+                      <Search className="absolute left-3 top-1/2 -translate-y-1/2 size-4 text-gray-400" />
+                      <Input
+                        type="text"
+                        placeholder={
+                          selectedConfig
+                            ? `Search by ${selectedConfig.config.display}...`
+                            : "Select an identifier type..."
+                        }
+                        value={searchQuery}
+                        onChange={(e) => setSearchQuery(e.target.value)}
+                        onKeyDown={handleKeyDown}
+                        className="pl-10"
+                      />
+                    </>
+                  )}
                 </div>
-              </CardContent>
-            </Card>
-          )}
+                <Button
+                  onClick={searchPatients}
+                  disabled={isLoading || !selectedConfigId}
+                  variant="primary"
+                >
+                  {isLoading ? (
+                    <Loader2 className="size-4 animate-spin" />
+                  ) : (
+                    <Search className="size-4" />
+                  )}
+                  Search
+                </Button>
+              </div>
+              {error && <p className="text-red-500 text-sm mt-2">{error}</p>}
+            </CardContent>
+          </Card>
+
+          <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
+            {/* Patient List */}
+            <div className="lg:col-span-2">
+              {isLoading ? (
+                <Card>
+                  <CardContent>
+                    <div className="flex items-center justify-center py-12">
+                      <Loader2 className="size-8 animate-spin text-gray-400" />
+                    </div>
+                  </CardContent>
+                </Card>
+              ) : !hasSearched ? (
+                <Card className="border-dashed">
+                  <CardContent>
+                    <div className="flex flex-col items-center justify-center p-6 text-center">
+                      <div className="rounded-full bg-primary/10 p-3 mb-3">
+                        <Search className="size-6 text-primary" />
+                      </div>
+                      <h3 className="text-lg font-semibold mb-1">
+                        Search for Patients
+                      </h3>
+                      <p className="text-sm text-gray-500">
+                        {selectedConfig
+                          ? `Enter ${selectedConfig.config.display} to search`
+                          : "Select an identifier type to search"}
+                      </p>
+                    </div>
+                  </CardContent>
+                </Card>
+              ) : patients.length === 0 ? (
+                <Card className="border-dashed">
+                  <CardContent>
+                    <div className="flex flex-col items-center justify-center p-6 text-center">
+                      <div className="rounded-full bg-primary/10 p-3 mb-3">
+                        <User className="size-6 text-primary" />
+                      </div>
+                      <h3 className="text-lg font-semibold mb-1">
+                        No patients found
+                      </h3>
+                      <p className="text-sm text-gray-500">
+                        Try a different search term
+                      </p>
+                    </div>
+                  </CardContent>
+                </Card>
+              ) : (
+                <Card>
+                  <CardHeader>
+                    <CardTitle className="text-lg flex items-center gap-2">
+                      <User className="size-5" />
+                      Patients
+                      <span className="text-sm font-normal text-gray-500">
+                        ({patients.length} found)
+                      </span>
+                    </CardTitle>
+                  </CardHeader>
+                  <CardContent>
+                    <div className="space-y-3">
+                      {patients.map((patient) => (
+                        <div
+                          key={patient.id}
+                          onClick={() => setSelectedPatient(patient)}
+                          className={`p-4 rounded-lg border cursor-pointer transition-all hover:shadow-md ${
+                            selectedPatient?.id === patient.id
+                              ? "border-primary-500 bg-primary-50"
+                              : "border-gray-200 hover:border-gray-300"
+                          }`}
+                        >
+                          <div className="flex items-center justify-between">
+                            <div>
+                              <span className="font-semibold text-lg text-gray-900">
+                                {patient.name}
+                              </span>
+                              <div className="text-sm text-gray-500 mt-1 space-x-3">
+                                <span>Age: {getAge(patient)}</span>
+                                <span>•</span>
+                                <span>
+                                  Gender: {formatGender(patient.gender || "")}
+                                </span>
+                              </div>
+                              {patient.phone_number && (
+                                <div className="text-sm text-gray-500">
+                                  Phone: {patient.phone_number}
+                                </div>
+                              )}
+                            </div>
+                            <Button
+                              variant="outline"
+                              size="sm"
+                              onClick={(e) => {
+                                e.stopPropagation();
+                                setSelectedPatient(patient);
+                              }}
+                            >
+                              Select
+                            </Button>
+                          </div>
+                        </div>
+                      ))}
+                    </div>
+                  </CardContent>
+                </Card>
+              )}
+            </div>
+
+            {/* Print Section */}
+            <div className="lg:col-span-1">
+              {selectedPatient ? (
+                <PatientIdCardPrint
+                  patient={selectedPatient}
+                  onlyShowPrintButton={false}
+                  className="sticky top-4"
+                />
+              ) : (
+                <Card className="sticky top-4 border-dashed">
+                  <CardContent>
+                    <div className="flex flex-col items-center justify-center p-6 text-center">
+                      <div className="rounded-full bg-primary/10 p-3 mb-3">
+                        <Printer className="size-6 text-primary" />
+                      </div>
+                      <h3 className="text-lg font-semibold mb-1">
+                        No Patient Selected
+                      </h3>
+                      <p className="text-sm text-gray-500">
+                        Select a patient to print their ID card
+                      </p>
+                    </div>
+                  </CardContent>
+                </Card>
+              )}
+            </div>
+          </div>
         </div>
       </div>
     </div>
