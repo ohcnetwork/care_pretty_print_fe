@@ -16,6 +16,7 @@ const getRelativeDateSuffix = (abbreviated: boolean) => {
  * - Uses `date_of_birth` when available for precise year/month/day output.
  * - Falls back to `year_of_birth` (Jan 1) when only the year is known.
  * - For patients less than 1 year old (with date_of_birth), returns months and days.
+ * - If the patient is deceased, calculates age at time of death instead of now.
  * - Supports an `abbreviated` flag for short suffixes (e.g. "25 Y" vs "25 years").
  */
 export const formatPatientAge = (
@@ -30,7 +31,9 @@ export const formatPatientAge = (
       : new Date(patient.year_of_birth!, 0, 1),
   );
 
-  const end = dayjs(new Date());
+  const end = patient.deceased_datetime
+    ? dayjs(new Date(patient.deceased_datetime))
+    : dayjs(new Date());
 
   const years = end.diff(start, "years");
   if (years) {

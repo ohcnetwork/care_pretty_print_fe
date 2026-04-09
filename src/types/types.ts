@@ -23,5 +23,6 @@ export interface PatientRead {
   date_of_birth?: string;
   year_of_birth?: number;
   gender?: string;
+  deceased_datetime?: string | null;
   instance_identifiers?: InstanceIdentifier[];
 }
