@@ -40,6 +40,7 @@
     "clsx": "^2.1.1",
     "cmdk": "^1.1.1",
     "code-128-encoder": "^3.1.1",
+    "dayjs": "^1.11.20",
     "jsbarcode": "^3.12.1",
     "lucide-react": "^0.487.0",
     "mime": "^4.0.7",

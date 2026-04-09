@@ -11,6 +11,7 @@ import { PhoneInput } from "@/components/ui/phone-input";
 import PatientIdCardPrint from "@/components/PatientIdCardPrint";
 
 import type { PatientRead } from "@/types/types";
+import { formatPatientAge } from "@/utils";
 
 interface IdentifierConfig {
   id: string;
@@ -195,20 +196,6 @@ export default function PatientSearchPage({
     }
   };
 
-  const getAge = (patient: PatientRead): string => {
-    if (patient.date_of_birth) {
-      const age =
-        new Date().getFullYear() -
-        new Date(patient.date_of_birth).getFullYear();
-      return `${age} years`;
-    }
-    if (patient.year_of_birth) {
-      const age = new Date().getFullYear() - patient.year_of_birth;
-      return `${age} years`;
-    }
-    return "N/A";
-  };
-
   const selectedConfig = identifierConfigs.find(
     (c) => c.id === selectedConfigId,
   );
@@ -382,7 +369,7 @@ export default function PatientSearchPage({
                                 {patient.name}
                               </span>
                               <div className="text-sm text-gray-500 mt-1 space-x-3">
-                                <span>Age: {getAge(patient)}</span>
+                                <span>Age: {formatPatientAge(patient)}</span>
                                 <span>•</span>
                                 <span>
                                   Gender: {formatGender(patient.gender || "")}
