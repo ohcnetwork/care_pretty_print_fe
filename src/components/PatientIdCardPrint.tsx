@@ -7,7 +7,7 @@ import { cn } from "@/lib/utils";
 import { Button, ButtonVariant } from "@/components/ui/button";
 
 import type { PatientRead } from "@/types/types";
-import { getPatientId } from "@/utils";
+import { formatPatientAge, getPatientId } from "@/utils";
 
 interface PatientIdCardPrintProps {
   patient: PatientRead;
@@ -41,18 +41,6 @@ export default function PatientIdCardPrint({
     }
   };
 
-  const getAge = (): number | string => {
-    if (patient.date_of_birth) {
-      return (
-        new Date().getFullYear() - new Date(patient.date_of_birth).getFullYear()
-      );
-    }
-    if (patient.year_of_birth) {
-      return new Date().getFullYear() - patient.year_of_birth;
-    }
-    return "-";
-  };
-
   const getPatientData = () => ({
     name: patient.name?.toUpperCase() || "",
     patientID: patient.id || "",
@@ -60,7 +48,7 @@ export default function PatientIdCardPrint({
       patient,
       __meta?.REACT_APP_PATIENT_IDENTIFIER_ID as string,
     ),
-    age: getAge(),
+    age: formatPatientAge(patient, true),
     sex: patient.gender ? formatGender(patient.gender) : "-",
     date: new Date().toLocaleDateString(),
   });
@@ -215,7 +203,7 @@ export default function PatientIdCardPrint({
               )}
             </span>
             <span>
-              <strong>Age/Sex:</strong> {getAge()}/
+              <strong>Age/Sex:</strong> {formatPatientAge(patient, true)}/
               {patient.gender ? formatGender(patient.gender) : "-"}
             </span>
           </div>

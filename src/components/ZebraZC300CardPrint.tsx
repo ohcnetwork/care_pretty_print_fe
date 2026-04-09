@@ -4,7 +4,7 @@ import { useState } from "react";
 import { Button } from "@/components/ui/button";
 
 import type { PatientRead } from "@/types/types";
-import { getPatientId } from "@/utils";
+import { formatPatientAge, getPatientId } from "@/utils";
 import ZC300PrinterManager from "@/utils/ZC300PrinterManager";
 
 interface ZebraZC300CardPrintProps {
@@ -36,22 +36,6 @@ export default function ZebraZC300CardPrint({
     }
   };
 
-  const calculateAge = (dateOfBirth?: string): number | string => {
-    if (!dateOfBirth) return "N/A";
-    const birthDate = new Date(dateOfBirth);
-    const today = new Date();
-    const age = today.getFullYear() - birthDate.getFullYear();
-    const monthDiff = today.getMonth() - birthDate.getMonth();
-
-    if (
-      monthDiff < 0 ||
-      (monthDiff === 0 && today.getDate() < birthDate.getDate())
-    ) {
-      return age - 1;
-    }
-    return age;
-  };
-
   const formatPhoneNumber = (phone: string): string => {
     if (!phone) return "N/A";
     // Format phone number if needed
@@ -62,7 +46,7 @@ export default function ZebraZC300CardPrint({
     name: patient.name?.toUpperCase() || "",
     patientID: patient.id || "",
     id: getPatientId(patient),
-    age: calculateAge(patient.date_of_birth),
+    age: formatPatientAge(patient, true),
     sex: patient.gender ? formatGender(patient.gender) : "N/A",
     phone: formatPhoneNumber(patient.phone_number),
     dateOfBirth: patient.date_of_birth
@@ -210,7 +194,7 @@ export default function ZebraZC300CardPrint({
                 <strong>ID:</strong> {getPatientId(patient)}
               </p>
               <p>
-                <strong>Age/Sex:</strong> {calculateAge(patient.date_of_birth)}/
+                <strong>Age/Sex:</strong> {formatPatientAge(patient, true)}/
                 {patient.gender ? formatGender(patient.gender) : "N/A"}
               </p>
             </div>
