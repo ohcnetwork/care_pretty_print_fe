@@ -12,7 +12,12 @@ import { formatPatientAge, getPatientId } from "@/utils";
 interface PatientIdCardPrintProps {
   patient: PatientRead;
   className?: string;
-  __meta?: Record<string, unknown>;
+  __meta?: {
+    config?: {
+      REACT_APP_PATIENT_IDENTIFIER_ID?: string;
+    };
+    [key: string]: unknown;
+  };
   onlyShowPrintButton?: boolean;
   variant?: ButtonVariant;
 }
@@ -46,7 +51,7 @@ export default function PatientIdCardPrint({
     patientID: patient.id || "",
     id: getPatientId(
       patient,
-      __meta?.REACT_APP_PATIENT_IDENTIFIER_ID as string,
+      __meta?.config?.REACT_APP_PATIENT_IDENTIFIER_ID as string,
     ),
     age: formatPatientAge(patient, true),
     sex: patient.gender ? formatGender(patient.gender) : "-",
@@ -199,7 +204,7 @@ export default function PatientIdCardPrint({
               <strong>ID No. :</strong>{" "}
               {getPatientId(
                 patient,
-                __meta?.REACT_APP_PATIENT_IDENTIFIER_ID as string,
+                __meta?.config?.REACT_APP_PATIENT_IDENTIFIER_ID as string,
               )}
             </span>
             <span>
