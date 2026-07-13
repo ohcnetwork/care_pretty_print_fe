@@ -8,7 +8,7 @@ export default defineConfig({
   envPrefix: "REACT_",
   plugins: [
     federation({
-      name: "care_teleicu_devices",
+      name: "care_pretty_print",
       filename: "remoteEntry.js",
       exposes: {
         "./manifest": "./src/manifest.ts",
